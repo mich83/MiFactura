@@ -1,0 +1,57 @@
+<%= form_for(@doc) do |f| %>
+  <% if @doc.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@doc.errors.count, "error") %> prohibited this doc from being saved:</h2>
+
+      <ul>
+      <% @doc.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :clave %><br>
+    <%= f.text_field :clave %>
+  </div>
+  <div class="field">
+    <%= f.label "RUC de emisor" %><br>
+    <%= f.text_field :ruc_emisor %>
+  </div>
+  <div class="field">
+    <%= f.label "RUC" %><br>
+    <%= f.text_field :ruc %>
+  </div>
+  <div class="field">
+    <%= f.label "Razon social de emisor" %><br>
+    <%= f.text_field :razon_social_emisor %>
+  </div>
+  <div class="field">
+    <%= f.label "Razon social" %><br>
+    <%= f.text_field :razon_social %>
+  </div>
+  <div class="field">
+    <%= f.label "Sub total" %><br>
+    <%= f.text_field :subtotal %>
+  </div>
+  <div class="field">
+    <%= f.label "Total" %><br>
+    <%= f.text_field :total %>
+  </div>
+  <div class="field">
+    <%= f.label "Tipo de comprobante" %><br>
+    <%= f.text_field :tipo_de_comprobante %>
+  </div>
+  <div class="field">
+    <%= f.label "Fecha" %><br>
+    <%= f.text_field :fecha %>
+  </div>
+  <div class="field">
+    <%= f.label "Direccion" %><br>
+    <%= f.text_field :direccion %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

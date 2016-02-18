@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>mi factura</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= stylesheet_link_tag    'application', media: 'all', async: true, cache: true, 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', async: true, cache: true, 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body id="page1">
+<!-- header -->
+<header>
+
+
+
+  <div class="container">
+
+      <div class="row">
+        <div class="col-md-5 col-sm-5 hidden-xs">
+            <h1 class="desktop"><a href="/">mi factura</a></h1>
+        </div>
+        <div class="col-md-7 col-sm-7 col-middle col-xs-12">
+           <!--   -->
+          <nav class="navbar navbar-default menu-margin" role="navigation">
+            <div class="container-fluid">
+              <!-- Brand and toggle get grouped for better mobile display -->
+
+                <%= render :partial =>'auth'%>
+
+            </div><!-- /.container-fluid -->
+          </nav>
+        </div>
+
+      </div>
+
+  </div>
+</header><!-- end header -->
+
+<!-- content -->
+<section id="content">
+  <div class="container">
+    <%= yield %>
+  </div>
+</section><!-- end content -->
+
+<div class="container">
+  <div class="row">
+    <!-- footer -->
+
+      <div class="col-sm-10 hidden-xs footer-block-1">
+        <ul class="footer-menu fleft">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/recibidos/facturas">Documentos</a></li>
+          <li><a href="/api">API</a></li>
+          <li><a href="/faq">Como funciona</a></li>
+        </ul>
+        </div>
+
+        <div class="col-sm-2 col-xs-12 fright">
+
+           <img class="fright" src="<%= image_url "digicert.png" %>">
+        </div>
+
+    </div>
+      <div class="row">
+           <div class="policy fright">Abaco Soluciones S.A. &copy; 2014 | <a href="index-6.html">Politica de privacidad</a><div><!--{%FOOTER_LINK} --></div></div>
+      </div>
+
+</div>
+
+<div class="navbar navbar-fixed-bottom">
+  <% flash.each do |key, value| %>
+      <div class="alert alert-dismissible   <%= flash_class(key) %>"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> <%= value.instance_of?(String) ? value.html_safe : value %></div>
+  <% end %>
+</div>
+
+
+
+
+
+</body>
+</html>

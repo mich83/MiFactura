@@ -1,0 +1,137 @@
+.sf-menu, .sf-menu * {margin:0;padding:0;list-style:none;}
+.sf-menu{float:right; margin-right:32px;}
+.sf-menu li {position:relative; float:left; margin-left:6px;}
+	.sf-menu ul li {
+		width: 100%;
+	}
+.sf-menu li:firs-child {margin-left:0;}
+	.sf-menu li a {
+		display:block;
+		font:14px/17px Arial, sans-serif;
+		color:#515151;
+		padding:5px 13px 7px 12px;
+	}
+		.sf-menu li a:hover, .sf-menu li.active a, .sf-menu li.sfHover a {
+			color:#f1f1f1;
+			background: #212121;
+		}
+.sf-menu ul {
+	position:		absolute;
+	top:			-999em;
+	z-index:		99;
+	width:			111px; 
+	display:none;
+	background:#212121;
+	padding:7px 0 14px 0;
+}
+.sf-menu li li{padding:0; margin-left:0;}
+	.sf-menu li li a,.sf-menu li.sfHover li a,.sf-menu li.active li a{font-size:13px; padding: 10px 0 8px 19px; background: #212121 url('../images/sub-menu-border.png') repeat-x;}
+		.sf-menu li li a:hover,.sf-menu li li.sfHover a,.sf-menu li li.active a{background: #929090 url('../images/sub-menu-border.png') repeat-x;}
+		.sf-menu li li:first-child a {background: #212121;}
+		.sf-menu li li:first-child a:hover {background: #929090;}
+.sf-menu ul ul {
+	position:		absolute;
+	top:			-999em;
+	z-index:		99;
+	width:			101px; 
+	display:none;
+	background:none;
+}
+.sf-menu li li li{}
+	.sf-menu li li li a,.sf-menu li li.sfHover li a,.sf-menu li li.active li a{background: #3e3e3e url('../images/sub-menu-border-2.png') repeat-x; border: 1px solid transparent; margin-left:0;}
+		.sf-menu li li li a:hover,.sf-menu li li li.active a{background: #737171; border: 1px solid transparent;}
+		.sf-menu li li li:first-child a {background: #3e3e3e;}
+		.sf-menu li li li:first-child a:hover {background: #737171;}
+.sf-menu li:hover ul,
+.sf-menu li.sfHover ul {
+	left:			-13px;
+	top:			42px; /* match top ul list item height */
+}
+ul.sf-menu li:hover li ul,
+ul.sf-menu li.sfHover li ul {
+	top:			-999em;
+}
+ul.sf-menu li li:hover ul,
+ul.sf-menu li li.sfHover ul {
+	left:			111px; /* match ul width */
+	top:			-8px;
+}
+ul.sf-menu li li:hover li ul,
+ul.sf-menu li li.sfHover li ul {
+	top:			-999em;
+}
+ul.sf-menu li li li:hover ul,
+ul.sf-menu li li li.sfHover ul {
+	left:			10em; /* match ul width */
+	top:			0px;
+}
+.sf-sub-indicator {
+	text-indent: -999em;
+	width: 7px;
+	height: 4px;
+	display:inline-block;
+	background: url('../images/sf-sub-indicator.png') no-repeat;
+	position:absolute;
+	top: -10px;
+	left:46%;
+}
+.sf-menu  > li li > a > .sf-sub-indicator {
+	display:none;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	
+}
+@media only screen and (max-width: 767px) {
+	.sf-menu{float:none; margin-bottom:30px; margin-right:0;}
+	.sf-menu ul,.sf-menu ul ul {min-width:100%;position: relative; left: 0 !important; top:0px !important; padding:0;background:none;}
+	.sf-menu li {float:none;margin-top:6px; margin-left:0;}
+	.sf-menu li li {float:none;margin-top:0px;}
+		.sf-menu li:first-child {margin-top:0;}
+	.sf-menu li a {
+		border: 1px solid #dddddd;
+		padding:14px 0 16px 21px;
+		background: url('../images/row-1-bg.jpg');
+	}
+	.sf-menu li a:hover, .sf-menu li.active a, .sf-menu li.sfHover a {
+			border: 1px solid #212121;
+		}
+	.sf-menu li li a {
+		padding:14px 0 16px 41px !important;
+	}
+	.sf-menu li li a:hover, .sf-menu li li.active a, .sf-menu li li.sfHover a  {
+		background: #929090;
+	}
+	.sf-menu li li li a:hover, .sf-menu li li li.active a, .sf-menu li li li.sfHover a  {
+		background: #737171;
+	}
+	.sf-menu li li li a {
+		padding:14px 0 16px 61px !important;
+	}
+	.sf-sub-indicator {
+		text-indent: -999em;
+		width: 7px;
+		height: 4px;
+		display:inline-block;
+		background: url('../images/sf-sub-indicator.png') no-repeat;
+		position:relative;
+		left:7px;
+		top:8px;
+	}
+	.sf-menu  > li li > a > .sf-sub-indicator {
+		text-indent: -999em;
+		width: 7px;
+		height: 4px;
+		display:inline-block;
+		background: url('../images/sf-sub-indicator.png') no-repeat;
+		position:relative;
+		left:7px;
+		top:8px;
+	}
+	.sf-menu li a:hover .sf-sub-indicator, .sf-menu li.active a .sf-sub-indicator, .sf-menu li.sfHover a .sf-sub-indicator  {
+		background: url('../images/sf-sub-indicator.png') no-repeat 0 -4px;
+	}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	
+}

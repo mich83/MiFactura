@@ -1,0 +1,26 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Cantidad</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @tipos.each_pair do |ambiente, tipos| %>
+      <tr>
+        <th>
+          <%=ambiente%>
+        </th>
+        <th>
+          <%=tipos[:count]%>
+        </th>
+      </tr>
+      <% tipos[:tipos].each do |tipo_comprobante|%>
+      <tr>
+        <td><%=tipo_comprobante[:tipo]%></td>
+        <td><%=tipo_comprobante[:count]%></td>
+      </tr>
+      <% end %>
+   <% end %>
+   </tbody>
+</table>

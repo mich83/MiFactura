@@ -1,0 +1,176 @@
+
+
+
+<div class="row">
+  <div class="col-md-10">
+    <% if !@only_recibidos %>
+  <div class="btn-group">
+    <button type="button" class="btn btn-info">
+      <%= @type == :emitidos ? 'Emitidos' : 'Recibidos' %>
+    </button>
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="<%=@ambiente_path%>/recibidos<%= @path_prefix%><%="?ruc="+@contraparte if !@contraparte.nil?%> ">Recibidos</a></li>
+      <li><a href="<%=@ambiente_path%>/emitidos<%= @path_prefix%><%="?ruc="+@contraparte if !@contraparte.nil?%>">Emitidos</a></li>
+    </ul>
+
+  </div>
+    <% end %>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-info">
+      <%= @type_caption %>
+    </button>
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="<%=@ambiente_path%><%=@path_postfix %><%="?ruc="+@contraparte if !@contraparte.nil?%>" >Todos</a></li>
+      <li><a href="<%=@ambiente_path%><%=@path_postfix%>/facturas<%="?ruc="+@contraparte if !@contraparte.nil?%>">Facturas</a></li>
+      <li><a href="<%=@ambiente_path%><%=@path_postfix%>/nc<%="?ruc="+@contraparte if !@contraparte.nil?%>">Notas de credito</a></li>
+      <li><a href="<%=@ambiente_path%><%=@path_postfix%>/nd<%="?ruc="+@contraparte if !@contraparte.nil?%>">Notas de debito</a></li>
+      <li><a href="<%=@ambiente_path%><%=@path_postfix%>/retenciones<%="?ruc="+@contraparte if !@contraparte.nil?%>">Comprobantes de retencion</a></li>
+      <li><a href="<%=@ambiente_path%><%=@path_postfix%>/guias<%="?ruc="+@contraparte if !@contraparte.nil?%>">Guias de remision</a></li>
+    </ul>
+
+  </div>
+  <% if !@only_produccion %>
+  <div class="btn-group">
+    <button type="button" class="btn btn-info">
+      <%= @ambiente %>
+    </button>
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="<%=@path_postfix+@path_prefix%><%="?ruc="+@contraparte if !@contraparte.nil?%>">Producción</a></li>
+      <li><a href="/pruebas<%=@path_postfix+@path_prefix%><%="?ruc="+@contraparte if !@contraparte.nil?%>">Pruebas</a></li>
+      <li><a href="/simulacion<%=@path_postfix+@path_prefix%><%="?ruc="+@contraparte if !@contraparte.nil?%>">Simulación</a></li>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#contraparte">Contraparte: <%=@contraparte.nil? ? "todos" : @contraparte%></button>
+    <a href="<%=@path_postfix+@path_prefix %>"><button type="button" class="btn btn-default">X</button></a>
+  </div>
+  </div>
+  <div class="col-md-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-success">Añadir</button>
+      <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" data-toggle="modal" data-target="#consultar" >Consultar clave</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#subir">Subir el archivo</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<table class="table" style="margin-top: 20px;">
+  <thead>
+    <tr>
+      <% if @path_prefix.empty? %>
+      <th>Tipo de comprobante</th>
+      <% end %>
+      <th>Fecha</th>
+      <th>Numero</th>
+      <th width="30%">Contraparte</th>
+      <th class="hidden-xs">Subtotal</th>
+      <th>Total</th>
+      <th class="hidden-xs hidden-sm">Direccion</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @docs.count == 0 %>
+      <tr><td colspan="8" align="center"><br>No hay documentos encontrados</td> </tr>
+    <% end %>
+    <% @docs.each do |doc| %>
+      <% ruc = doc.ruc == @user_ruc ? doc.ruc_emisor : doc.ruc %>
+      <% razon_social = doc.ruc == @user_ruc ? doc.razon_social_emisor : doc.razon_social %>
+      <tr>
+        <% if @path_prefix.empty? %>
+            <td><%=doc.tipo_de_comprobante_s%></td>
+        <% end %>
+        <td style="min-width: 70px;"><%=doc.fecha.to_s(:default)%> </td><td><%=link_to doc.numero, doc %></td>
+        <td><%=razon_social%><br><a href="<%=@ambiente_path+@path_postfix+@path_prefix+"?ruc="+ruc%>"><%=ruc%></a></td>
+        <td class="hidden-xs" align="right"><%= doc.subtotal.nil? ? "" : "#{'%.2f' % doc.subtotal}" %></td>
+        <td align="right"><%= doc.total.nil? ? doc.valorModificacion.nil? ? "" : "#{'%.2f' % doc.valorModificacion}" : "#{'%.2f' % doc.total}" %></td>
+        <td class="hidden-xs hidden-sm"><div style="max-height: 36px; overflow: hidden; text-overflow: ellipsis;"><%= doc.direccion %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @docs, {:previous_label => "&laquo;", :next_label =>"&raquo;"} %>
+
+<!-- Modal -->
+<div class="modal fade" id="contraparte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Seleccione el contraparte</h4>
+      </div>
+      <div class="modal-body">
+      <form role="form" method="get" action="<%=@path_postfix+@path_prefix %>" class="form-inline">
+             <label for="ruc" class="control-label">Identificación: </label>
+             <input type="text" class="form-control" id="ruc" name="ruc">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="consultar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Añadir nuevo documento</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag "/docs", :class=>"form-inline" do %>
+            <div class="form-group">
+              <%= label_tag 'clave', 'Ingrese la clave', class: "control-label" %>
+              <%= text_field_tag 'clave',nil, class: "form-control"  %>
+              <%= submit_tag "Consultar", class: "btn btn-info"%>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="subir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Añadir nuevo documento</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag "/docs", :multipart => true, :class=>"form-inline" do %>
+            <div class="form-group">
+              <%= file_field_tag 'archivo', :accept => "text/xml,application/zip"  %><br><br>
+              <%= submit_tag "Subir", class: "btn btn-info"%>
+
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

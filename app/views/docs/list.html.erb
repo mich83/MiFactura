@@ -1,0 +1,15 @@
+<table class="table table-condensed table-hover" width="960px">
+  <% @docs.each do |doc| %>
+      <% if !doc.nil? %>
+       <tr>
+         <td>
+           <%=link_to "#{Doc.tipo_de_comprobante_s(doc.tipo_de_comprobante)} ##{doc.numero} de #{doc.fecha}", doc %>
+
+         </td>
+
+       </tr>
+      <% end %>
+
+  <% end %>
+
+</table>

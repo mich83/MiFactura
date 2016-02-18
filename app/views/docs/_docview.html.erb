@@ -1,0 +1,191 @@
+
+
+<p class="h3">
+  <%= @doc.tipo_de_comprobante_s %> #<%= @doc.numero %> de <%= @doc.fecha.to_s(:default)%>
+</p>
+
+
+
+<div class="row">
+  <div class="col-md-6">
+    <dl class="dl-horizontal">
+      <dt>Emisor:</dt> <dd><%= @doc.razon_social_emisor %></dd><dt> RUC:</dt><dd><%= @doc.ruc_emisor %></dd>
+      <% if !@doc.nombreComercial.nil? %>
+          <dt>Nombre comercial:</dt> <dd><%= @doc.nombreComercial %></dd>
+      <% end %>
+      <dt>Direccion</dt> <dd><%= @doc.direccion %></dd>
+      <dt>Telefono</dt> <dd><%= @doc.telefono %></dd>
+    </dl>
+  </div>
+
+  <div class="col-md-6">
+    <dl class="dl-horizontal">
+
+      <% if @doc.tipo_de_comprobante == 7 %>
+        <dt>Sujeto retenido</dt>
+      <% elsif @doc.tipo_de_comprobante == 6 %>
+        <dt>Transportista</dt>
+      <% else %>
+        <dt>Comprador:</dt>
+      <% end %>
+
+      <dd> <%= @doc.razon_social %></dd> <dt>RUC:</dt> <dd><%=@doc.ruc %></dd>
+      <% if @doc.tipo_de_comprobante == 4 %>
+        <dt>Documento modificado:</dt>
+        <dd><%=Doc.tipo_de_comprobante_s(@doc.codDocModificado)%> #<%=@doc.numeroDocModificado%> de <%=@doc.fechaEmisionDocSustento.to_s(:default)%></dd>
+      <% end %>
+      <% if @doc.tipo_de_comprobante == 6 %>
+        <dt>Transporte:</dt>
+        <% if @doc.datosGuia[:iniTransporte] == @doc.datosGuia[:finTransporte] %>
+              <dd><%=@doc.datosGuia[:iniTransporte]%></dd>
+        <% else %>
+            <dd>desde <%=@doc.datosGuia[:iniTransporte]%> hasta <%=@doc.datosGuia[:finTransporte]%></dd>
+        <% end %>
+        <dt>Placa:</dt>
+        <dd><%=@doc.datosGuia["placa"]%></dd>
+      <% end %>
+    </dl>
+  </div>
+
+</div>
+<br>
+
+<% if !@doc.retenciones.nil? && @doc.retenciones.count != 0 %>
+    <table class="table table-condensed table-hover">
+    <tr>
+        <th>Codigo de retencion</th>
+        <th>Impuesto</th>
+        <th>Base</th>
+        <th>Porcentaje</th>
+        <th>Retenido</th>
+        <th>Documento sustento</th>
+    </tr>
+
+    <% @doc.retenciones.each do |row| %>
+      <tr>
+        <td><%=row[:codigoRetencion]%></td>
+        <td><%=row[:codigo] %></td>
+        <td><%="#{'%.2f' % row[:base]}"%></td>
+        <td><%="#{'%.2f' % row[:porcentaje]}"%></td>
+        <td><%="#{'%.2f' % row[:valor]}"%></td>
+        <td><%=Doc.tipo_de_comprobante_s(row[:codDocSustento])%> #<%=row[:numDocSustento]%> de <%=row[:fechaEmisionDocSustento]%></td>
+      </tr>
+
+    <% end %>
+
+    </table>
+
+<% end %>
+
+<% if !@doc.destinatarios.nil? && @doc.destinatarios.count !=0 %>
+    <% @doc.destinatarios.each do |dest| %>
+        <div class="row">
+          <div class="col-md-6">
+             <dl class="dl-horizontal">
+               <dt>Destinatario:</dt>
+               <dd><%= dest[:razon_social]%></dd>
+               <dt>RUC:</dt>
+               <dd><%= dest[:ruc]%></dd>
+               <dt>Documento:</dd>
+               <dd><%=Doc.tipo_de_comprobante_s(dest[:codDocSustento])%> #<%=dest[:numDocSustento]%></dd>
+             </dl>
+          </div>
+          <div class="col-md-6">
+            <dl class="dl-horizontal">
+              <dt>Motivo:</dt>
+              <dd><%=dest[:motivo]%></dd>
+              <dt>Ruta:</dt>
+              <dd><%=dest[:ruta]%></dd>
+              <dt>Establecimiento:</dt>
+              <dd><%=dest[:desino]%></dd>
+            </dl>
+          </div>
+        </div>
+        <table class="table table-condensed table-hover" width="960px">
+          <tr>
+            <th>Codigo</th>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+          </tr>
+          <% dest[:detalles].each do |det| %>
+            <tr>
+              <td><%=det[:codigo]%></td>
+              <td><%=det[:descripcion]%></td>
+              <td><%="#{'%.2f' % det[:cantidad]}"%></td>
+            </tr>
+          <% end %>
+        </table>
+    <% end %>
+
+<% end %>
+
+<% if !@doc.detalles.nil? && @doc.detalles.count !=0 %>
+
+    <table class="table table-condensed table-hover" width="960px">
+      <tr>
+        <th>Codigo</th>
+        <th>Descripcion</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+      </tr>
+
+      <% @doc.detalles.each do |row| %>
+          <tr>
+            <td><%=row[:codigo]%></td>
+            <td><%=row[:descripcion]%></td>
+            <td><%="#{'%.2f' % row[:precio]}"%></td>
+            <td><%=row[:cantidad]%></td>
+            <td><%="#{'%.2f' % row[:subtotal]}"%></td>
+
+          </tr>
+          <% if !row[:detalles].nil? %>
+              <% Rails.logger.debug row[:detalles].inspect %>
+              <% row[:detalles].each_pair do |key,value| %>
+                <tr>
+                  <td></td>
+                  <td colspan="3" style="word-wrap: break-word; font-size: 10px;">
+                    <b><%=key%></b>:<%= value.gsub ",",", " %>
+                  </td>
+                </tr>
+              <% end %>
+          <% end %>
+
+      <% end %>
+
+    </table>
+    <br>
+<% end %>
+<div class="row">
+
+  <div class="col-md-3">
+    <dl class="dl-horizontal">
+      <% if @doc.tipo_de_comprobante != 7 && @doc.tipo_de_comprobante != 6%>
+      <dt>Subtotal:</dt>
+      <dd><%="#{'%.2f' % @doc.subtotal}" %></dd>
+      <% end %>
+      <% @doc.impuestos_info.each do |imp| %>
+
+
+          <dt><%=imp[:descr]%></dt>
+          <dd><%= "#{'%.2f' % imp[:valor]}"%></dd>
+
+      <% end %>
+      <% if @doc.tipo_de_comprobante == 1 %>
+          <dt>Total:</dt>
+          <dd><%= "#{'%.2f' % @doc.total}" %></dd>
+      <% elsif @doc.tipo_de_comprobante == 4 %>
+          <dt>Total:</dt>
+          <dd><%= "#{'%.2f' % @doc.valorModificacion}"%></dd>
+      <% end %>
+    </dl>
+  </div>
+
+  <div class="col-md-9">
+    <dl class="dl-horizontal">
+      <dt>Autorizado por el SRI:</dt> <dd><%= @doc.fechaAutorizacion.advance(:hours=>-5).to_s(:long) %></dd>
+      <dt>Numero de autorizacion:</dt> <dd><%= @doc.numeroAutorizacion %></dd>
+      <dt>Clave de acceso:</dt><dd id="doc_clave"><%=@doc.clave %></dd>
+    </dl>
+  </div>
+</div>

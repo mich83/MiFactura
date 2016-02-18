@@ -1,0 +1,134 @@
+<div class="row ident-bot-4">
+  <div class="slogan-ident">
+    <div class="row hidden-xs slogan"><span>Todos sus comprobantes</span> en un solo lugar!</div>
+    <div class="row hidden-xs slogan-1">Consulte sus comprobantes usando una de las opciones de abajo. Сree su usuario para ver los documentos</div>
+  </div>
+
+
+<% n = 1 %>
+
+
+
+<% @buttons.each do |button| %>
+
+<div id="push_button_<%=n.to_s%>" class="col-md-4 col-sm-4 col-xs-6" >
+  <div class="block-1">
+    <% if !button[:ref].nil? %>
+        <a href="<%=button[:ref]%>">
+    <% end %>
+    <div class="ident-bot-1 img-block">
+      <img src="<%=image_url button[:img]+".jpg"%>" alt="" />
+      <img class="absolute" src="<%=image_url button[:img]+"-hover.jpg"%>" alt="" style="opacity: 0;" />
+    </div>
+    <h2 class="h2-color-<%=n.to_s%> ident-bot-2 index-options"><%= button[:caption]%></h2>
+    <p class="ident-bot-3"><%=button[:info]%></p>
+    <button class="btn btn-default b-color-<%=n.to_s%>"><%=button[:button]%></button>
+    <% if !button[:ref].nil? %>
+       </a>
+    <% end %>
+  </div>
+</div>
+
+<% n = n+1 %>
+
+<% end %>
+
+
+<div id="layer1" class="col-md-8 col-sm-8 col-xs-12 hidden">
+
+
+    <p class="ident-bot-4">
+    <%= form_tag "/docs", :class=>"form-horizontal", role: "form" do %>
+        <div class="form-group">
+            <%= label_tag 'clave', 'Ingrese la clave', class: "col-sm-3 col-xs-12 control-label clave-label" %>
+            <div class="col-sm-9 col-xs-12">
+              <%= text_field_tag 'clave',nil, class: "form-control" %>
+            </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-xs-12">
+          <%= submit_tag "Consultar", class: "btn btn-info"%>    <a class="btn btn-info " id="push_button_0" href="#"><img src="<%=image_url('glyphicons_unshare.png')%>"> </a>
+          </div>
+         </div>
+    <% end %>
+    </p>
+
+
+
+</div>
+
+<div id="layer2" class="col-md-8 col-sm-8 col-xs-12 hidden">
+
+    <p class="ident-bot-4">
+    <%= form_tag "/docs", :multipart => true, :class=>"form-horizontal" do %>
+        <%= file_field_tag 'archivo', :accept => "text/xml,application/zip", class: 'fileinput' %><br><br>
+        <%= submit_tag "Subir", class: "btn btn-info"%>    <a class="btn btn-info " id="push_button_0" href="#"><img src="<%=image_url('glyphicons_unshare.png')%>"> </a>
+
+    <% end %>
+    </p>
+
+
+</div>
+
+<% if !user_signed_in? %>
+
+<div id="layer3" class="col-sm-8 col-xs-12 hidden">
+
+    <p class="ident-bot-4">
+    <%= form_tag "/users", class: "form-horizontal", role: "form"  do %>
+        <div class="form-group">
+          <%= label_tag 'RUC', 'Ingrese el RUC', class: "control-label col-sm-3" %>
+            <div class="col-sm-9"><%= text_field_tag 'RUC', nil, class: "form-control " %></div>
+        </div>
+        <div class="form-group">
+            <%= label_tag 'email', 'Ingrese e-mail', class: "control-label col-sm-3" %>
+            <div class="col-sm-9"><%= text_field_tag 'email', nil, class: "form-control "  %></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-xs-12">
+            <%= submit_tag "Registrarse", class: "btn btn-info" %> <a class="btn btn-info " id="push_button_0" href="#"> <img src="<%=image_url('glyphicons_unshare.png')%> "></a>
+            </div>
+        </div>
+
+    <% end %>
+    </p>
+
+
+
+</div>
+
+<% end %>
+
+</div>
+
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="block-2">
+      <img class="fleft ident-right-1" src="<%= image_url "icon-1.png" %>" alt="" />
+      <div class="extra-wrap inner-ident-1">
+        <h2 class="ident-bot-5 page1-h2">Funcionamiento del portal</h2>
+        <p class="ident-bot-6">Portal mifactura.ec le permite consolidar todos sus comprobantes electrónicos en un solo lugar. Existen algunas formas de recepción y notificación de nuevos documentos.</p>
+        <a class="button-2" href="/faq">Leer mas</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="block-3">
+      <img class="fleft ident-right-1" src="<%= image_url "icon-2.png" %>" alt="" />
+      <div class="extra-wrap inner-ident-1">
+        <h2 class="ident-bot-5 page1-h2">Integración y API</h2>
+        <p class="ident-bot-6">Si usted o su empresa emite o esta planificando emitir comprobantes electrónicos integre su sistema con mifactura.ec. Es muy economico y eficiente.</p>
+        <a class="button-2" href="/api">Leer mas</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="block-4">
+      <div class="block-4-border">
+        <p class="ident-bot-7">Abaco Soluciones <br />Garzota 1, Mz 7 Sol. 23 <br />Guayaquil <br />Ecuador</p>
+        <p><a class="link-1" href="http://www.abaco.com.ec">www.abaco.com.ec</a></p>
+      </div>
+    </div>
+  </div>
+</div>

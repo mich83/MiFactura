@@ -1,0 +1,71 @@
+<% if !user_signed_in? %>
+
+    <div class="col-md-1" id="reg_button">
+      <button class="btn btn-info"  onclick="$('#registration_form')[0].style.visibility='visible'; $('#reg_button')[0].style.display='none';">Registrarse</button>
+    </div>
+    <div id="registration_form" class="col-md-10">
+      <%= form_tag "/users", :class=>"form-inline" do %>
+          <%= hidden_field_tag :clave, @doc.clave %>
+          <div class="form-group">
+            <%= label_tag 'RUC', 'RUC', class: "control-label" %> <%= text_field_tag 'RUC', @doc.ruc, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">@</div><%= text_field_tag 'email', nil, class: "form-control"  %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= submit_tag "Registrarse", :class=>"btn btn-info" %>
+          </div>
+
+      <% end %>
+    </div>
+
+<% end %>
+<br>
+
+<%= render 'docview' %>
+
+
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <div class="blocks" >
+    <%= link_to "Atrás", "javascript:history.go(-1)", class: "btn btn-info" %>
+    <%= link_to 'XML', url_for(@doc)+".xml", class: "btn btn-info" %>
+    <%= link_to 'RIDE', 'https://lanube.ec/RIDE/hs/RIDE/pdf/'+@doc.clave, class: "btn btn-info" %>
+    <button class="btn btn-info navbar-btn  hidden-xs" data-toggle="modal" data-target="#enviar">
+      Enviar
+    </button>
+ </div>
+</div>
+
+
+<div class="modal fade" id="clave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row" style="margin: 5px;">
+            Para copiar la clave aplaste, por favor, <kbd>Ctrl</kbd>+<kbd>C</kbd>, <kbd>Enter</kbd>
+            <input id="clavebox" type="string"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="enviar" tabindex="-1" role="dialog" aria-labelledby="Enviar correo" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      <%= form_tag '/docs/send' %>
+
+          <%=hidden_field_tag(:id, @doc.id)%>
+
+          <%=label_tag(:address, "Correo electronico")%>
+          <%=text_field_tag(:address, @correo_principal)%>
+          <%=submit_tag("Enviar", class: "btn btn-info")%>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+

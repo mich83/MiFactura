@@ -1,0 +1,11 @@
+<html>
+
+<body>
+Estimado señor(a).
+
+Usted recibió nueva factura a través del portal <%=link_to "mifactura.ec", @host+url_for(@doc) %>
+
+<%= render :partial=> "docs/docview", locals: {doc: @doc} %>
+
+</body>
+</html>

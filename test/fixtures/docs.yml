@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  clave: 
+  RUCEmisor: 
+  RUC: 
+  RazonSocialEmisor: 
+  RazonSocial: 
+  SubTotal: 
+  Total: 
+  TipoDeComprobante: 
+  Fecha: 
+  Direccion: 
+  Telefono: MyString
+
+two:
+  clave: 
+  RUCEmisor: 
+  RUC: 
+  RazonSocialEmisor: 
+  RazonSocial: 
+  SubTotal: 
+  Total: 
+  TipoDeComprobante: 
+  Fecha: 
+  Direccion: 
+  Telefono: MyString
